@@ -1,0 +1,11 @@
+img,svg {
+    vertical-align:text-bottom;
+    /* vertical-align: middle; */
+}
+
+img {
+    max-width: 100%;
+    display: block;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+} 

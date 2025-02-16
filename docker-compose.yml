@@ -1,0 +1,74 @@
+version: "3.9"
+
+services:
+  # ----------------------
+  # 1) Redis
+  # ----------------------
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "9090:6379"
+
+  # ----------------------
+  # 2) PostgreSQL 15
+  # ----------------------
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      POSTGRES_USER: '${DB_USER}'
+      POSTGRES_DB: '${DB_NAME}'
+    ports:
+      - "9091:5432"
+
+  # ----------------------
+  # 3) API (FastAPI + Poetry)
+  # ----------------------
+  api:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    container_name: api
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - "9092:8000"
+    # Пример переменных окружения:
+    environment:
+      REDIS_HOST: '${REDIS_HOST}'
+      REDIS_PORT: '${REDIS_PORT}'
+
+  # ----------------------
+  # 4) Frontend (Vue 3)
+  # ----------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "9093:80"
+    # Если нужно пробросить внутрь контейнера API-адрес или иные настройки:
+    environment:
+      VUE_APP_API_URL: "http://localhost:8000"
+  # ----------------------
+  # 5) Docs (статические файлы)
+  # ----------------------
+  # docs:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.docs
+  #   container_name: my-docs
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8081:80"

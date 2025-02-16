@@ -1,0 +1,10 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+}

@@ -1,0 +1,13 @@
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+audio,
+canvas,
+video {
+    display: inline-block;
+    //display: inline;
+    //zoom: 1;
+    max-width: 100%;
+}

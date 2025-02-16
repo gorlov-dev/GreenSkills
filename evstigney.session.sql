@@ -1,0 +1,51 @@
+-- CREATE OR REPLACE FUNCTION base.track_slide_changes() RETURNS TRIGGER AS $$
+-- DECLARE changes JSONB;
+-- BEGIN -- Безопасный вызов jsonb_diff_recursive с защитой от NULL
+-- changes := COALESCE(
+--     base.jsonb_diff_recursive(
+--         jsonb_build_object(
+--             'prompt',
+--             OLD.prompt,
+--             'data',
+--             OLD.data,
+--             'position',
+--             OLD.position,
+--             'template_id',
+--             OLD.template_id
+--         ),
+--         jsonb_build_object(
+--             'prompt',
+--             NEW.prompt,
+--             'data',
+--             NEW.data,
+--             'position',
+--             NEW.position,
+--             'template_id',
+--             NEW.template_id
+--         )
+--     ),
+--     '{}'::jsonb
+-- );
+-- -- Исправлено условие проверки наличия изменений
+-- IF jsonb_typeof(changes) = 'object'
+-- AND EXISTS (
+--     SELECT 1
+--     FROM jsonb_object_keys(changes)
+--     LIMIT 1
+-- ) THEN
+-- INSERT INTO slides_versions (slide_id, version, changes)
+-- VALUES (OLD.id, OLD.version + 1, changes);
+-- -- Проверка на UPDATE, чтобы избежать рекурсии
+-- UPDATE slides
+-- SET version = OLD.version + 1
+-- WHERE id = OLD.id;
+-- END IF;
+-- RETURN NEW;
+-- END;
+-- $$ LANGUAGE plpgsql;
+-- 
+-- 
+EXPLAIN ANALYZE
+UPDATE slides
+SET position = 3
+WHERE id = 20;

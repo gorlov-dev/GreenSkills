@@ -1,0 +1,42 @@
+// ---------------- color
+
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$danger-color: #e74c3c;
+$warning-color: #f39c12;
+$success-color: #2ecc71;
+
+$background-color: #f5f5f5;
+$text-color: #333;
+$light-text-color: #999;
+$border-color: #e1e1e1;
+
+// ---------------- fonts
+
+$base-font-family: 'Arial', sans-serif;
+$base-font-size: 16px;
+$heading-font-family: 'Montserrat', sans-serif;
+$line-height: 1.5;
+
+// ---------------- container
+
+$container-width: 1200px;
+$container-padding: 20px;
+
+// ---------------- @media
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// ---------------- border-radius
+
+$border-radius: 4px;
+$border-radius-lg: 8px;
+$border-radius-sm: 2px;
+
+// ---------------- shadow
+
+$box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+$box-shadow-hover: 0 6px 8px rgba(0, 0, 0, 0.15);
